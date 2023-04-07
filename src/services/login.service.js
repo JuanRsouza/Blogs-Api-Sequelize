@@ -8,11 +8,11 @@ const { generateToken } = require('../utils/auth');
 // };
 
 const login = async (email, password) => {
- const user = await User.findOne({ where: { email, password } });
+ const userLog = await User.findOne({ where: { email, password } });
 
- if (!user) throw new ErrorApi('Invalid fields', 400);
+ if (!userLog) throw new ErrorApi('Invalid fields', 400);
 
- const token = generateToken(user.id);
+ const token = generateToken(userLog.id);
  return token;
 };
 
