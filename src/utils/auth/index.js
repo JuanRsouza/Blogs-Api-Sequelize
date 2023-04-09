@@ -10,9 +10,9 @@ const generateToken = (id) => {
   return token;
 };
 
-const verifyToken = (token) => {
+const validateToken = (token) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   return decoded;
 };
 
-module.exports = { generateToken, verifyToken };
+module.exports = { generateToken, validateToken };

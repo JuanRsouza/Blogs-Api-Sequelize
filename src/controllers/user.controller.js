@@ -5,4 +5,9 @@ const createUser = async (req, res) => {
   const token = await userService.createUser({ displayName, email, password, image });
   return res.status(201).json({ token });
 };   
-module.exports = { createUser };
+
+const getAllUsers = async (_req, res) => {
+  const users = await userService.getAllUsers();
+  return res.status(200).json(users);
+};
+module.exports = { createUser, getAllUsers };
