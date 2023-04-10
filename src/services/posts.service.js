@@ -42,4 +42,21 @@ const getPostById = async (id) => {
   return post;
 };
 
-module.exports = { addPost, getAllPosts, getPostById };
+const updatePost = async (id, title, content, userId) => {
+  const post = await BlogPost.findByPk(id);
+  if (post.userId !== userId) throw new ErrorApi('Unauthorized user', 401);
+  console.log('entrei');
+   await BlogPost.update(
+    { title, content, updated: new Date() },
+    { where: { id } },
+  );
+  const postUpdated = await BlogPost.findByPk(id, {
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return postUpdated;
+};
+
+module.exports = { addPost, getAllPosts, getPostById, updatePost };
