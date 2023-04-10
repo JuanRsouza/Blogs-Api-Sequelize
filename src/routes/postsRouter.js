@@ -7,5 +7,6 @@ const postsRouter = Router();
 
 postsRouter.post('/', verifyToken, validateFildsPost, postsController.addPost);
 postsRouter.get('/', verifyToken, postsController.getAllPosts);
+postsRouter.get('/:id', verifyToken, postsController.getPostById);
 
 module.exports = postsRouter;
