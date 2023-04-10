@@ -21,4 +21,10 @@ const getUserById = async (id) => {
   return user;
 };
 
-module.exports = { createUser, getAllUsers, getUserById };
+const deleteUser = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) throw new ErrorApi('User does not exist', 404);
+  await User.destroy({ where: { id } });
+};
+
+module.exports = { createUser, getAllUsers, getUserById, deleteUser };
