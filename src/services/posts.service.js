@@ -1,4 +1,4 @@
-const { BlogPost, Category, PostCategory, User } = require('../models');
+const { BlogPost, Category, PostCategory, User, Sequelize: { Op } } = require('../models');
 const ErrorApi = require('../utils/ErrorApi');
 
 const addPost = async (title, content, categoryIds, userId) => {
@@ -66,4 +66,23 @@ const deletePost = async (id, userId) => {
   await BlogPost.destroy({ where: { id } });
 };
 
-module.exports = { addPost, getAllPosts, getPostById, updatePost, deletePost };
+const searchPosts = async (q) => {
+  // q =  algum title ou algum content.
+  // entrar no banco de dados e buscar por title ou content.
+
+  const posts = await BlogPost.findAll({
+    where: {
+      [Op.or]: [
+        { title: { [Op.like]: `%${q}%` } },
+        { content: { [Op.like]: `%${q}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return posts;
+};
+
+module.exports = { addPost, getAllPosts, getPostById, updatePost, deletePost, searchPosts };

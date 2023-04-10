@@ -8,6 +8,7 @@ const postsRouter = Router();
 
 postsRouter.post('/', verifyToken, validateFildsPost, postsController.addPost);
 postsRouter.get('/', verifyToken, postsController.getAllPosts);
+postsRouter.get('/search', verifyToken, postsController.searchPosts);
 postsRouter.get('/:id', verifyToken, postsController.getPostById);
 postsRouter.put('/:id', verifyToken, validationInputsPosts, postsController.updatePost);
 postsRouter.delete('/:id', verifyToken, postsController.deletePost);
