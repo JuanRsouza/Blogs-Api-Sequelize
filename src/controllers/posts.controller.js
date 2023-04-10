@@ -1,10 +1,9 @@
 const postsService = require('../services/posts.service');
-const { decodeToken } = require('../utils/auth');
 
 const addPost = async (req, res) => {
   const { title, content, categoryIds } = req.body;
-  const token = req.headers.authorization;
-  const userId = decodeToken(token).id;
+  const { id } = req.user;
+  const userId = id;
   const post = await postsService.addPost(title, content, categoryIds, userId);
   console.log(post);
   return res.status(201).json(post);
@@ -26,8 +25,7 @@ const getPostById = async (req, res) => {
 const updatePost = async (req, res) => {
   const { id } = req.params;
   const { title, content } = req.body;
-  const token = req.headers.authorization;
-  const userId = decodeToken(token).id;
+  const userId = req.user.id;
   const post = await postsService.updatePost(id, title, content, userId);
   console.log(post);
 
@@ -36,8 +34,7 @@ const updatePost = async (req, res) => {
 
 const deletePost = async (req, res) => {
   const { id } = req.params;
-  const token = req.headers.authorization;
-  const userId = decodeToken(token).id;
+  const userId = req.user.id;
   await postsService.deletePost(id, userId);
 
   return res.status(204).end();

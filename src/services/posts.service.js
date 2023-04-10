@@ -27,7 +27,7 @@ const getAllPosts = async () => {
       { model: Category, as: 'categories', through: { attributes: [] } },
     ],
   });
-  console.log(posts);
+ 
   return posts;
 };
 
